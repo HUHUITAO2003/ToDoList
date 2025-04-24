@@ -101,8 +101,16 @@ int main() {
             }
 
             default: {
-                //input non valido
+                try {
+                    if (std::cin.fail()) {
+                        throw std::invalid_argument("contenyto invalido");
+                    }
+                } catch (const std::invalid_argument& e) {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                }
                 cout << "Opzione non valida. Riprova." << endl;
+                break;
             }
         }
     } while (choice != 6);
