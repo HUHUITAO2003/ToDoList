@@ -26,6 +26,12 @@ private:
 public:
     explicit TaskList(int nextId = 1) : nextId(nextId) {}
 
+    int getNextId() const { return nextId; }
+
+    const vector<Task> &getTasks() const { return tasks; }
+
+    void setPath(const string &path) { this->path = path; }
+
     // Aggiunge un task tramite titolo e descrizione
     void addTask(const string &title, const string &description, int urgencyLevel);
 

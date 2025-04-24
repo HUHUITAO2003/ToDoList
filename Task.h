@@ -35,7 +35,7 @@ public:
     void setUrgencyLevel(int urgencyLevel) { this->urgencyLevel = urgencyLevel; }
 
     // Stampa i dettagli del task
-    void print() const;
+    string toString() const;
 
     // Serializza il task in una stringa con formato: id;completed;title;description
     string serialize() const;

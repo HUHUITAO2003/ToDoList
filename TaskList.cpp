@@ -4,6 +4,9 @@
 
 #include "TaskList.h"
 
+#include <thread>
+#include <chrono>
+#include <bits/fs_fwd.h>
 
 // Aggiunge un task tramite titolo e descrizione
 void TaskList::addTask(const string &title, const string &description, int urgencyLevel) {
@@ -15,8 +18,12 @@ void TaskList::addTask(const string &title, const string &description, int urgen
 void TaskList::addTask(Task &task) {
     if (isIdOccupied(task.getId())) {
         task.setId(nextId);
-        nextId++;
+    } else {
+        if(nextId < task.getId()) {
+            nextId = task.getId();
+        }
     }
+    nextId++;
     tasks.push_back(task);
 }
 
@@ -32,7 +39,7 @@ void TaskList::printTasks() const {
                     cout<<"Task di urgenza Critica: " <<endl;
                     printed = true;
                 }
-                task.print();
+                cout << task.toString();
             }
         }
         printed = false;
@@ -42,7 +49,7 @@ void TaskList::printTasks() const {
                     cout<<"Task di urgenza Alta: " <<endl;
                     printed = true;
                 }
-                task.print();
+                cout << task.toString();
             }
         }
         printed = false;
@@ -52,7 +59,7 @@ void TaskList::printTasks() const {
                     cout<<"Task di urgenza Media: " <<endl;
                     printed = true;
                 }
-                task.print();
+                cout << task.toString();
             }
         }
         printed = false;
@@ -62,7 +69,7 @@ void TaskList::printTasks() const {
                     cout<<"Task di urgenza Bassa: " <<endl;
                     printed = true;
                 }
-                task.print();
+                cout << task.toString();
             }
         }
     }
@@ -73,6 +80,7 @@ bool TaskList::save() const {
     ofstream file(path);
     if (!file.is_open()) {
         cerr << "Errore nell'aprire il file per la scrittura." << endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         return false;
     }
     for (const auto &task : tasks) {
@@ -82,11 +90,14 @@ bool TaskList::save() const {
     return true;
 }
 
+
+
 // Carica da disco l'elenco dei task
 bool TaskList::load() {
     ifstream file(path);
     if (!file.is_open()) {
         cerr << "Errore nell'aprire il file per la lettura." << endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         return false;
     }
     string line;
@@ -97,7 +108,8 @@ bool TaskList::load() {
             Task t = Task::deserialize(line);
             addTask(t);
         } catch (exception &e) {
-            cerr << "Errore nel parsing della riga: " << line << endl;
+            cerr << "Errore nel parsing della riga: \"" << line << "\"" << endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
     file.close();
