@@ -15,6 +15,19 @@ void printError(const string &errorMessage) {
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
 
+int getInt() {
+    int input;
+    cin >> input;
+    while(cin.fail()) {
+        cout << "Errore: non hai inserito un numero." << endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cin >> input;
+    }
+    cin.ignore(); // rimuove \n dal buffer, se no getLine finisce subito
+    return input;
+}
+
 int main() {
     TaskList todo;
     int choice;
@@ -33,32 +46,35 @@ int main() {
         switch (choice) {
             case 1: {
                 //Aggiungi
-                string title, description, urgencyLevelStr;
-                int level;
-                do {
-                    cout << "Inserisci il titolo del task (non puo' contenere il carattere |): ";
-                    getline(cin, title);
-                } while (title.find("|") != string::npos);
-                do {
-                    cout << "Inserisci la descrizione (non puo' contenere il carattere |): ";
-                    getline(cin, description);
-                } while (title.find("|") != string::npos);
-                do {
-                    cout << "Inserisci il livello di urgenza (0: Basso, 1: Medio, 2:Alto, 3.Critico): ";
-                    getline(cin, urgencyLevelStr);
+                string title, description;
+                int urgencyLevel;
+                cout << "Inserisci il titolo del task (non puo' contenere il carattere | ): " << endl;
+                getline(cin, title);
+
+                cout << "Inserisci la descrizione (non puo' contenere il carattere | ): " << endl;
+                getline(cin, description);
+
+                cout << "Inserisci il livello di urgenza (0: Basso, 1: Medio, 2:Alto, 3.Critico): " << endl;
+                urgencyLevel = getInt();
+
+                while(true) {
                     try {
-                        level = stoi(urgencyLevelStr); // Converte la stringa in intero
-                    } catch (const std::invalid_argument &e) {
-                        printError("Errore: input non valido!");
-                        continue;
+                        todo.addTask(title, description, urgencyLevel);
+                        break;
+                    } catch (const invalid_title_argument &e) {
+                        cout << e.what() << endl;
+                        cout << "Inserisci il titolo del task (non puo' contenere il carattere | ): " << endl;
+                        getline(cin, title);
+                    } catch (const invalid_description_argument &e) {
+                        cout << e.what() << endl;
+                        cout << "Inserisci la descrizione (non puo' contenere il carattere | ): " << endl;
+                        getline(cin, description);
+                    } catch (const invalid_urgencyLevel_argument &e) {
+                        cout << e.what() << endl;
+                        cout << "Inserisci il livello di urgenza (0: Basso, 1: Medio, 2:Alto, 3.Critico ): " << endl;
+                        urgencyLevel = getInt();
                     }
-                    if (level < 0 || level > 3) {
-                        printError("Errore: valore non compatibile per nessun livello!");
-                    }
-                } while(level < 0 || level > 3);
-
-
-                todo.addTask(title, description, level);
+                }
                 cout << "Task aggiunto correttamente." << endl << endl;
                 break;
             }

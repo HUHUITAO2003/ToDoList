@@ -19,6 +19,7 @@ class TaskList {
 private:
     vector<Task> tasks;
     int nextId;
+    string name;
     string path = "./SavedToDo.txt";
 
     bool isIdOccupied(int idToCheck) const;
@@ -36,7 +37,7 @@ public:
     void addTask(const string &title, const string &description, int urgencyLevel);
 
     // Aggiunge un task già costruito e aggiorna nextId se necessario
-    void addTask(Task &task);
+    void addTask( Task &task);
 
     bool completeTask(int ID);
 
