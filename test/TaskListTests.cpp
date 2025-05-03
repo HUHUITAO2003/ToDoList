@@ -170,3 +170,29 @@ TEST(TestTaskList, TaskListDeleteTask) {
     ASSERT_FALSE(taskList.deleteTask(1));
     ASSERT_EQ(taskList.getNumberOfTask(), 2);
 }
+
+TEST(TestTaskList, TaskListModifyTask) {
+    string name;
+    TaskList taskList(0, name);
+    taskList.setNextId(1);
+    ASSERT_EQ(taskList.getNextId(), 1);
+    Task task1(1, "titolo1", "descrizione1", 1);
+    Task task2(7, "titolo2", "descrizione2", 1, true);
+    taskList.addTask("titolo3", "descrizione3", 1);
+    taskList.addTask(task1);
+    taskList.addTask(task2);
+
+    ASSERT_EQ(taskList.getTask(0).getId(), 1);
+    EXPECT_EQ(taskList.getTask(0).getTitle(), "titolo3");
+    EXPECT_EQ(taskList.getTask(0).getDescription(), "descrizione3");
+    ASSERT_EQ(taskList.getTask(0).getUrgencyLevel(), 1);
+    ASSERT_FALSE(taskList.getTask(0).isCompleted());
+    string titolo = "newTitle", descrizione = "newDescription";
+    taskList.modifyTask(1, titolo, descrizione, 0, true);
+    ASSERT_EQ(taskList.getTask(2).getId(), 1);
+    EXPECT_EQ(taskList.getTask(2).getTitle(), titolo);
+    EXPECT_EQ(taskList.getTask(2).getDescription(), descrizione);
+    ASSERT_EQ(taskList.getTask(2).getUrgencyLevel(), 0);
+    ASSERT_TRUE(taskList.getTask(2).isCompleted());
+    ASSERT_FALSE(taskList.modifyTask(66, titolo, descrizione, 0, true));
+}

@@ -94,6 +94,15 @@ bool TaskList::deleteTask(int taskListID) {
     return false;
 }
 
+bool TaskList::modifyTask(int taskID, const string &newTitle, const string &newDesciption, int urgencyLevel,
+    bool completed) {
+    if(deleteTask(taskID) == false) {
+        return false;
+    }
+    tasks.emplace_back(taskID, newTitle, newDesciption, urgencyLevel, completed);
+    return true;
+}
+
 bool TaskList::isIdOccupied(int idToCheck) const {
     for (const auto &task: tasks) {
         if (task.getId() == idToCheck) {
@@ -112,3 +121,4 @@ bool TaskList::completeTask(int id) {
     }
     return false;
 }
+

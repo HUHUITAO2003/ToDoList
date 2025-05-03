@@ -40,6 +40,8 @@ public:
 
     bool deleteTask(int taskListID);
 
+    bool modifyTask(int taskListID, const string &newTitle, const string &newDesciption, int urgencyLevel, bool completed);
+
     void getXXXurgencyLevelTaskPosition(int urgencyLevel, vector<int> &positions) const;
 
     bool completeTask(int ID);
