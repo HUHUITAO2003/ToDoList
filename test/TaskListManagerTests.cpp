@@ -302,4 +302,91 @@ TEST(TestTaskListManager, TaskListManagerSaveTaskList) {
     readFile.close();
 }
 
+TEST(TestTaskListManager, TaskListManagerFindWord) {
+    string tempFilePath = "./testToDo.txt";
+    ofstream file(tempFilePath);
+    if (!file) {
+        file.close();
+        throw cannot_open_file("Errore: apertura file fallito.");
+    }
+    file << "1|1|\n";
+    file.close();
+
+    TaskListManager::setPath(tempFilePath);
+    TaskListManager taskListManager;
+    string name;
+    taskListManager.addTaskList(name);
+    taskListManager.addTaskList(name);
+    Task task1(1, "Titolo_Task1", "Descrizione_Task1", 2);
+    Task task2(2, "Titolo_Task2", "Descrizione_Task2", 1, true);
+    Task task3(3, "Titolo_Task4", "Descrizione_Task3", 0, true);
+    Task task4(4, "Titolo_Task5", "Descrizione_Task4", 3, true);
+    taskListManager.addTask(task1, 1);
+    taskListManager.addTask(task2, 1);
+    taskListManager.addTask(task3, 2);
+    taskListManager.addTask(task4, 2);
+
+    vector<int> taskIDs;
+    string word = "Task";
+    taskListManager.findWord(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 4);
+    word = "1";
+    taskListManager.findWord(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 1);
+    word = "Descrizione";
+    taskListManager.findWord(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 4);
+    word = "Basso";
+    taskListManager.findWord(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 1);
+    ASSERT_EQ(taskIDs[0], 3);
+    word = "Medio";
+    taskListManager.findWord(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 1);
+    ASSERT_EQ(taskIDs[0], 2);
+    word = "Alto";
+    taskListManager.findWord(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 1);
+    ASSERT_EQ(taskIDs[0], 1);
+    word = "Critico";
+    taskListManager.findWord(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 1);
+    ASSERT_EQ(taskIDs[0], 4);
+}
+
+TEST(TestTaskListManager, TaskListManagerGetNumberOfNotCompletedTask) {
+    string tempFilePath = "./testToDo.txt";
+    ofstream file(tempFilePath);
+    if (!file) {
+        file.close();
+        throw cannot_open_file("Errore: apertura file fallito.");
+    }
+    file << "1|1|\n";
+    file.close();
+
+    TaskListManager::setPath(tempFilePath);
+    TaskListManager taskListManager;
+    string name;
+    taskListManager.addTaskList(name);
+    taskListManager.addTaskList(name);
+    Task task1(1, "Titolo_Task1", "Descrizione_Task1", 2);
+    Task task2(2, "Titolo_Task2", "Descrizione_Task2", 1, true);
+    Task task3(3, "Titolo_Task3", "Descrizione_Task3", 0, true);
+    Task task4(4, "Titolo_Task4", "Descrizione_Task4", 3, true);
+    taskListManager.addTask(task1, 1);
+    taskListManager.addTask(task2, 1);
+    taskListManager.addTask(task3, 2);
+    taskListManager.addTask(task4, 2);
+
+    ASSERT_EQ(taskListManager.getNumberOfNotCompletedTask(), 1);
+    taskListManager.addTask(task1, 1);
+    ASSERT_EQ(taskListManager.getNumberOfNotCompletedTask(), 2);
+    taskListManager.addTask(task1, 1);
+    taskListManager.addTask(task1, 2);
+    ASSERT_EQ(taskListManager.getNumberOfNotCompletedTask(), 4);
+    taskListManager.addTask(task2, 1);
+    ASSERT_EQ(taskListManager.getNumberOfNotCompletedTask(), 4);
+}
+
+
 //TEST(TestTaskListManager, TaskListManager) {}

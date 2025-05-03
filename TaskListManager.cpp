@@ -37,6 +37,32 @@ int TaskListManager::getTaskListPosition(int taskListID) const {
     return -1;
 }
 
+bool TaskListManager::deleteTask(int taskID, int taskListPosition) {
+    return taskLists.at(taskListPosition).deleteTask(taskID);
+}
+
+bool TaskListManager::modifyTask(int taskID, int taskListPosition, const string &newTitle, const string &newDescription, int urgencyLevel, bool completed) {
+    return taskLists.at(taskListPosition).modifyTask(taskID, newTitle, newDescription, urgencyLevel, completed);
+}
+
+void TaskListManager::findWord(const string &word, vector<int> &taskIDs) const {
+    taskIDs.clear();
+    for(auto const &t:taskLists) {
+        vector<int> ids;
+        t.taskContains(word, ids);
+        taskIDs.insert(taskIDs.end(), ids.begin(), ids.end());
+    }
+}
+
+int TaskListManager::getNumberOfNotCompletedTask() const {
+    int count = 0;
+    for(auto const &t: taskLists) {
+        count += t.getNumberOfNotCompletedTask();
+    }
+    return count;
+}
+
+
 void TaskListManager::taskListToString(int taskListPosition, string &result) {
     taskLists.at(taskListPosition).toString(result);
 }

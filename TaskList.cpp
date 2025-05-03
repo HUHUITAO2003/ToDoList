@@ -4,6 +4,15 @@
 
 #include "TaskList.h"
 
+Task TaskList::getTaskByID(int targetID) const {
+    for(auto const &t : tasks) {
+        if(t.getId() == targetID) {
+            return t;
+        }
+    }
+    throw task_id_absent("Errore: TaskID non presente");
+}
+
 int TaskList::getNumberOfNotCompletedTask() const {
     int count = 0;
     for(auto const &t : tasks) {

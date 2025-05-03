@@ -33,12 +33,19 @@ public:
     void addTask(const string &title, const string &description, int urgencyLevel, int taskListPosition = 0) {
         taskLists[taskListPosition].addTask(title, description, urgencyLevel);
     }
+    void addTask(Task &task, int taskListPosition = 0) {
+        taskLists[taskListPosition].addTask(task);
+    }
     TaskList getTaskList(int taskListID) const;
     void toString(string &result) const;
     void savedTaskListToString(string &result) const;
     int getTaskListPosition(int taskListID) const;
     int getNumberOfTaskList() const { return taskLists.size(); }
     int getNextTaskListID() const { return nextTaskListID; }
+    bool deleteTask(int taskID, int taskListPosition);
+    bool modifyTask(int taskID, int taskListPosition, const string &newTitle, const string &newDesciption, int urgencyLevel, bool completed);
+    void findWord(const string &word, vector<int> &taskIDs) const;
+    int getNumberOfNotCompletedTask() const;
 
     void taskListToString(int taskListPosition, string &result);
     bool completeTask(int taskListPosition, int taskId);

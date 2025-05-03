@@ -10,6 +10,7 @@
 using namespace std;
 
 class invalid_name_argument : public std::invalid_argument {public: explicit invalid_name_argument(const std::string& msg) : std::invalid_argument(msg) {}};
+class task_id_absent : public runtime_error {public: explicit task_id_absent(const string& msg) : runtime_error(msg) {}};
 
 class TaskList {
 private:
@@ -31,6 +32,7 @@ public:
     int getTaskListID() const { return taskListID; }
     int getNumberOfTask() const { return tasks.size(); }
     Task getTask(int position) { return tasks.at(position); }
+    Task getTaskByID(int position) const;
     int getNumberOfNotCompletedTask() const ;
 
     // Aggiunge un task tramite titolo e descrizione
