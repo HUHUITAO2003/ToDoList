@@ -4,6 +4,24 @@
 
 #include "Task.h"
 
+bool Task::contains(const string &word) const {
+    if(title.find(word) != string::npos) {
+        return true;
+    }
+    if(description.find(word) != string::npos) {
+        return true;
+    }
+    for(int i = 0 ; i < Task::urgencyLevels.size() ; i++) {
+        if(urgencyLevels[i] == word && urgencyLevel == i) {
+            return true;
+        }
+    }
+    if(to_string(id).find(word) != string::npos) {
+        return true;
+    }
+    return false;
+}
+
 string Task::toString() const {
     return "TaskID: " + to_string(id) + " | " + (completed ? "[x]" : "[ ]") + " - " + title + " - \n" + description;
 }

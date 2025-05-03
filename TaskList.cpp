@@ -94,8 +94,17 @@ bool TaskList::deleteTask(int taskListID) {
     return false;
 }
 
+void TaskList::taskContains(const string &word, vector<int> &taskIDs) const {
+    taskIDs.clear();
+    for(int i = 0 ;  i < tasks.size() ; i++) {
+        if(tasks[i].contains(word)) {
+            taskIDs.emplace_back(tasks[i].getId());
+        }
+    }
+}
+
 bool TaskList::modifyTask(int taskID, const string &newTitle, const string &newDesciption, int urgencyLevel,
-    bool completed) {
+                          bool completed) {
     if(deleteTask(taskID) == false) {
         return false;
     }

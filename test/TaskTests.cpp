@@ -51,3 +51,28 @@ TEST(TestTask, TaskConstructor) {
     ASSERT_TRUE(task.getTitle() == "titolo");
     ASSERT_TRUE(task.getDescription() == "descrizione");
 }
+
+TEST(TestTask, TaskContains) {
+    Task task1(1, "Titolo_Task1", "Descrizione_Task1", 2);
+    Task task2(2, "Titolo_Task2", "Descrizione_Task2", 1, true);
+    ASSERT_TRUE(task1.contains("Titolo"));
+    ASSERT_TRUE(task1.contains("Task"));
+    ASSERT_TRUE(task1.contains("_"));
+    ASSERT_TRUE(task1.contains("1"));
+    ASSERT_TRUE(task1.contains("Descrizione"));
+    ASSERT_TRUE(task1.contains("Alto"));
+    ASSERT_FALSE(task1.contains("2"));
+    ASSERT_FALSE(task1.contains("Basso"));
+    ASSERT_FALSE(task1.contains("Medio"));
+    ASSERT_FALSE(task1.contains("Critico"));
+    ASSERT_TRUE(task2.contains("Titolo"));
+    ASSERT_TRUE(task2.contains("Task"));
+    ASSERT_TRUE(task2.contains("_"));
+    ASSERT_TRUE(task2.contains("2"));
+    ASSERT_TRUE(task2.contains("Descrizione"));
+    ASSERT_TRUE(task2.contains("Medio"));
+    ASSERT_FALSE(task2.contains("1"));
+    ASSERT_FALSE(task2.contains("Basso"));
+    ASSERT_FALSE(task2.contains("Critico"));
+    ASSERT_FALSE(task2.contains("Alto"));
+}

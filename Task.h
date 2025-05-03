@@ -42,6 +42,7 @@ public:
     const string &getTitle() const { return title; }
     int getUrgencyLevel() const { return urgencyLevel; }
     const string &getDescription() const { return description; }
+    bool contains(const string &word) const;
 
     void setId(int id) { this->id = id; }
     void setCompleted(bool value) { completed = value; }

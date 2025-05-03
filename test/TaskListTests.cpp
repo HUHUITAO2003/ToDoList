@@ -196,3 +196,44 @@ TEST(TestTaskList, TaskListModifyTask) {
     ASSERT_TRUE(taskList.getTask(2).isCompleted());
     ASSERT_FALSE(taskList.modifyTask(66, titolo, descrizione, 0, true));
 }
+
+TEST(TestTaskList, TaskListTaskContains) {
+    string name;
+    TaskList taskList(0, name);
+    taskList.setNextId(1);
+    Task task1(1, "Titolo_Task1", "Descrizione_Task1", 2);
+    Task task2(2, "Titolo_Task2", "Descrizione_Task2", 1, true);
+    Task task3(3, "Titolo_Task4", "Descrizione_Task3", 0, true);
+    Task task4(4, "Titolo_Task5", "Descrizione_Task4", 3, true);
+    taskList.addTask(task1);
+    taskList.addTask(task2);
+    taskList.addTask(task3);
+    taskList.addTask(task4);
+
+    vector<int> taskIDs;
+    string word = "Task";
+    taskList.taskContains(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 4);
+    word = "1";
+    taskList.taskContains(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 1);
+    word = "Descrizione";
+    taskList.taskContains(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 4);
+    word = "Basso";
+    taskList.taskContains(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 1);
+    ASSERT_EQ(taskIDs[0], 3);
+    word = "Medio";
+    taskList.taskContains(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 1);
+    ASSERT_EQ(taskIDs[0], 2);
+    word = "Alto";
+    taskList.taskContains(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 1);
+    ASSERT_EQ(taskIDs[0], 1);
+    word = "Critico";
+    taskList.taskContains(word, taskIDs);
+    ASSERT_EQ(taskIDs.size(), 1);
+    ASSERT_EQ(taskIDs[0], 4);
+}
