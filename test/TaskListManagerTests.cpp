@@ -181,7 +181,6 @@ TEST(TestTaskListManager, TaskListManagerCompleteTask) {
     ASSERT_FALSE(taskListManager.getTaskList(0).getTask(0).isCompleted());
     taskListManager.completeTask(0,1);
     ASSERT_TRUE(taskListManager.getTaskList(0).getTask(0).isCompleted());
-    cout <<"sa";
 }
 
 TEST(TestTaskListManager, TaskListManagerLoadTaskList) {
@@ -232,7 +231,6 @@ TEST(TestTaskListManager, TaskListManagerSaveTaskList) {
         throw cannot_open_file("Errore: apertura file fallito.");
     }
     file << "1|1|";
-    //file << "3|4|\n1:3:1|2:5:2|\n1|ToDoList1|\n1|0|0|Task1|desc1|\n2|ToDoList2|\n2|0|0|Task2|desc2|\n3|0|0|Task3|desc3|\n";
     file.close();
 
     TaskListManager::setPath(tempFilePath);

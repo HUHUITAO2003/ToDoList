@@ -62,3 +62,17 @@
 4	495	7679849073748500	CMakeFiles/core.dir/TaskListManager.cpp.obj	e01ccc631f3c7156
 495	588	7679849078659300	libcore.a	1bafaf9a5e72f3c8
 588	711	7679849079594866	ToDoList.exe	464c6dfeb27b7473
+5	401	7679852716951834	CMakeFiles/core.dir/TaskList.cpp.obj	c35ccf1e8c59dc0e
+401	489	7679852720910979	libcore.a	1bafaf9a5e72f3c8
+489	3341	7679852721792928	test/runTests.exe	891b5a4728d8d91d
+5	514	7679859003940313	CMakeFiles/core.dir/TaskList.cpp.obj	c35ccf1e8c59dc0e
+9	588	7679859003980158	CMakeFiles/core.dir/TaskListManager.cpp.obj	e01ccc631f3c7156
+13	590	7679859004014364	CMakeFiles/core.dir/ToDoListInterface.cpp.obj	7b077042d746a760
+590	697	7679859009797735	libcore.a	1bafaf9a5e72f3c8
+17	1075	7679859004059345	test/CMakeFiles/runTests.dir/TaskListTests.cpp.obj	d9aa8b38c6fb059b
+20	1294	7679859004089323	test/CMakeFiles/runTests.dir/TaskListManagerTests.cpp.obj	3194f4764bcf49d1
+1294	4374	7679859016833117	test/runTests.exe	891b5a4728d8d91d
+6	928	7679859338149307	test/CMakeFiles/runTests.dir/TaskListTests.cpp.obj	d9aa8b38c6fb059b
+928	3982	7679859347371796	test/runTests.exe	891b5a4728d8d91d
+7	898	7679859454690694	test/CMakeFiles/runTests.dir/TaskListTests.cpp.obj	d9aa8b38c6fb059b
+899	3794	7679859463595996	test/runTests.exe	891b5a4728d8d91d

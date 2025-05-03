@@ -153,3 +153,20 @@ TEST(TestTaskList, TaskListCompleteTask) {
     ASSERT_TRUE(taskList.getTask(1).isCompleted());
     ASSERT_FALSE(taskList.getTask(2).isCompleted());
 }
+
+TEST(TestTaskList, TaskListDeleteTask) {
+    string name;
+    TaskList taskList(0, name);
+    taskList.setNextId(1);
+    ASSERT_EQ(taskList.getNextId(), 1);
+    Task task1(1, "titolo1", "descrizione1", 1);
+    Task task2(7, "titolo2", "descrizione2", 1, true);
+    taskList.addTask("titolo3", "descrizione3", 1);
+    taskList.addTask(task1);
+    taskList.addTask(task2);
+    ASSERT_EQ(taskList.getNumberOfTask(), 3);
+    ASSERT_TRUE(taskList.deleteTask(1));
+    ASSERT_EQ(taskList.getNumberOfTask(), 2);
+    ASSERT_FALSE(taskList.deleteTask(1));
+    ASSERT_EQ(taskList.getNumberOfTask(), 2);
+}

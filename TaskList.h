@@ -38,6 +38,8 @@ public:
     // Aggiunge un task già costruito e aggiorna nextId se necessario
     void addTask(Task &task);
 
+    bool deleteTask(int taskListID);
+
     void getXXXurgencyLevelTaskPosition(int urgencyLevel, vector<int> &positions) const;
 
     bool completeTask(int ID);

@@ -32,7 +32,6 @@ void TaskList::toString(string &result) const {
     for (int i = Task::urgencyLevels.size() - 1; i >= 0; i--) {
         vector<int> positions;
         getXXXurgencyLevelTaskPosition(i, positions);
-        string a = Task::urgencyLevels[i];
         if (!positions.empty()) {
             result += "Task di urgenza " + Task::urgencyLevels[i] + ": \n";
             for (int j = 0; j < positions.size(); j++) {
@@ -83,6 +82,16 @@ void TaskList::deserialize(const vector<string> &lines) {
             throw parse_error("Errore: parsing della riga: \"" + lines[i] + "\" fallito");
         }
     }
+}
+
+bool TaskList::deleteTask(int taskListID) {
+    for (int i = 0 ; i < tasks.size() ; i++) {
+        if (tasks[i].getId() == taskListID) {
+            tasks.erase(tasks.begin() + i);
+            return true;
+        }
+    }
+    return false;
 }
 
 bool TaskList::isIdOccupied(int idToCheck) const {
