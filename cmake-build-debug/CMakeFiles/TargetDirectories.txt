@@ -1,0 +1,11 @@
+C:/Users/huita/CLionProjects/ToDoList/cmake-build-debug/CMakeFiles/ToDoList.dir
+C:/Users/huita/CLionProjects/ToDoList/cmake-build-debug/CMakeFiles/core.dir
+C:/Users/huita/CLionProjects/ToDoList/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/huita/CLionProjects/ToDoList/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/huita/CLionProjects/ToDoList/cmake-build-debug/test/CMakeFiles/runTests.dir
+C:/Users/huita/CLionProjects/ToDoList/cmake-build-debug/test/CMakeFiles/edit_cache.dir
+C:/Users/huita/CLionProjects/ToDoList/cmake-build-debug/test/CMakeFiles/rebuild_cache.dir
+C:/Users/huita/CLionProjects/ToDoList/cmake-build-debug/test/lib/googletest/CMakeFiles/gtest.dir
+C:/Users/huita/CLionProjects/ToDoList/cmake-build-debug/test/lib/googletest/CMakeFiles/gtest_main.dir
+C:/Users/huita/CLionProjects/ToDoList/cmake-build-debug/test/lib/googletest/CMakeFiles/edit_cache.dir
+C:/Users/huita/CLionProjects/ToDoList/cmake-build-debug/test/lib/googletest/CMakeFiles/rebuild_cache.dir
