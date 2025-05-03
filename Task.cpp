@@ -4,23 +4,21 @@
 
 #include "Task.h"
 
-#include <bits/stdc++.h>
-
 string Task::toString() const {
-    return "ID: " + to_string(id) + " | " + (completed ? "[x]" : "[ ]") + " - " + title + " - " + "\n" + description + "\n\n";
+    return "TaskID: " + to_string(id) + " | " + (completed ? "[x]" : "[ ]") + " - " + title + " - \n" + description;
 }
 
 
 // Serializza il task in una stringa con formato: id|urgencyLevel|completed|title|description
 string Task::serialize() const {
-    string line = to_string(id) + "|" + to_string(static_cast<int>(urgencyLevel)) + "|" + (completed ? "1" : "0") + "|" + title + "|" + description;
+    string line = to_string(id) + "|" + to_string(static_cast<int>(urgencyLevel)) + "|" + (completed ? "1" : "0") + "|"
+                  + title + "|" + description + "|";
     return line;
 }
 
 // Deserializza una stringa per creare un oggetto Task
 // Effettua la "parsing" manuale dei campi
 Task Task::deserialize(const string &line) {
-
     vector<string> v;
 
     stringstream ss(line);

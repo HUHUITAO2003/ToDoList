@@ -1,15 +1,18 @@
 #include <gtest/gtest.h>
-#include "../Task.h"
 #include "../TaskList.h"
 
 TEST(TestTaskList, TaskListAddTask_BothVersion) {
-    Task task1(1, "titolo1", "descrizione1", 1);
-    Task task2(7, "titolo2", "descrizione2", 1, true);
-    TaskList taskList;
+    string name;
+    TaskList taskList(0, name);
+    taskList.setNextId(1);
     ASSERT_EQ(taskList.getNextId(), 1);
 
+    Task task1(1, "titolo1", "descrizione1", 1);
+    Task task2(7, "titolo2", "descrizione2", 1, true);
+
     taskList.addTask("titolo1", "descrizione1", 1);
-    Task task = taskList.getTasks().at(0);
+
+    Task task = taskList.getTask(0);
     ASSERT_TRUE(task.getId() == task1.getId());
     ASSERT_TRUE(task.getUrgencyLevel() == task1.getUrgencyLevel());
     ASSERT_TRUE(task.isCompleted() == task1.isCompleted());
@@ -18,7 +21,7 @@ TEST(TestTaskList, TaskListAddTask_BothVersion) {
     ASSERT_EQ(taskList.getNextId(), 2);
 
     taskList.addTask(task2);
-    task = taskList.getTasks().at(1);
+    task = taskList.getTask(1);
     ASSERT_TRUE(task2.getId() == task.getId());
     ASSERT_TRUE(task2.getUrgencyLevel() == task.getUrgencyLevel());
     ASSERT_TRUE(task2.isCompleted() == task.isCompleted());
@@ -27,7 +30,7 @@ TEST(TestTaskList, TaskListAddTask_BothVersion) {
     ASSERT_EQ(taskList.getNextId(), 8);
 
     taskList.addTask(task2);
-    task = taskList.getTasks().at(2);
+    task = taskList.getTask(2);
     ASSERT_TRUE(task2.getId() == (taskList.getNextId()-1));
     ASSERT_TRUE(task2.getUrgencyLevel() == task.getUrgencyLevel());
     ASSERT_TRUE(task2.isCompleted() == task.isCompleted());
@@ -36,37 +39,117 @@ TEST(TestTaskList, TaskListAddTask_BothVersion) {
     ASSERT_EQ(taskList.getNextId(), 9);
 }
 
-TEST(TestTaskList, TaskListSaveAndLoad) {
-    TaskList taskList;
-    taskList.setPath("./test/testToDo.txt");
-    ASSERT_TRUE(taskList.load());
+TEST(TestTaskList, TaskListGetXXXurgencyLevelTaskPosition) {
+    string name;
+    TaskList taskList(0, name);
+    taskList.setNextId(1);
+    string titolo = "titolo";
+    string descrizione = "descrizione";
+    taskList.addTask(titolo, descrizione, 0);
+    taskList.addTask(titolo, descrizione, 0);
+    taskList.addTask(titolo, descrizione, 2);
+    taskList.addTask(titolo, descrizione, 3);
+    taskList.addTask(titolo, descrizione, 1);
+    taskList.addTask(titolo, descrizione, 0);
 
-    Task task1(200, "titolo1", "descrizione1", 0);
-    taskList.addTask(task1);
-    Task task = taskList.getTasks().at(0);
-    ASSERT_TRUE(task1.getId() == (taskList.getNextId()-1));
-    ASSERT_TRUE(task1.getUrgencyLevel() == task.getUrgencyLevel());
-    ASSERT_TRUE(task1.isCompleted() == task.isCompleted());
-    ASSERT_TRUE(task1.getTitle() == task.getTitle());
-    ASSERT_TRUE(task1.getDescription() == task.getDescription());
-    ASSERT_EQ(taskList.getNextId(), 201);
+    vector<int> positions;
+    taskList.getXXXurgencyLevelTaskPosition(0, positions);
+    ASSERT_EQ(positions[0], 0);
+    ASSERT_EQ(positions[1], 1);
+    ASSERT_EQ(positions[2], 5);
 
-    taskList.addTask("SALVATO", "SALVATO", 0);
-    taskList.save();
+    taskList.getXXXurgencyLevelTaskPosition(1, positions);
+    ASSERT_EQ(positions[0], 4);
 
-    TaskList taskList2;
-    taskList2.setPath("./test/testToDo.txt");
-    taskList2.load();
-    const Task &task2 = taskList2.getTasks().back();
+    taskList.getXXXurgencyLevelTaskPosition(2, positions);
+    ASSERT_EQ(positions[0], 2);
 
-    ASSERT_TRUE(task2.getId() == (taskList2.getNextId()-1));
-    ASSERT_TRUE(task2.getUrgencyLevel() == 0);
-    ASSERT_TRUE(task2.isCompleted() == false);
-    ASSERT_TRUE(task2.getTitle() == "SALVATO");
-    ASSERT_TRUE(task2.getDescription() == "SALVATO");
-    ASSERT_EQ(taskList.getNextId(), 202);
+    taskList.getXXXurgencyLevelTaskPosition(3, positions);
+    ASSERT_EQ(positions[0], 3);
+}
 
-    ofstream file("./test/testToDo.txt");
-    file << "1|0|0|titolo1|descrizione1\n2|1|1|titolo2|descrizione2\n3|2|0|titolo3|descrizione3\n4|3|1|titolo4|descrizione4";
-    file.close();
+TEST(TestTaskList, TaskListToString) {
+    string name;
+    TaskList taskList(0, name);
+    taskList.setNextId(1);
+    string result;
+    taskList.toString(result);
+    EXPECT_EQ(result, "");
+    string titolo = "titolo";
+    string descrizione = "descrizione";
+    taskList.addTask(titolo+"1", descrizione, 0);
+    taskList.addTask(titolo+"2", descrizione, 0);
+    taskList.addTask(titolo+"3", descrizione, 1);
+    result = "";
+    taskList.toString(result);
+    EXPECT_EQ(result, "Task di urgenza Medio: \nTaskID: 3 | [ ] - titolo3 - \ndescrizione\n\nTask di urgenza Basso: \nTaskID: 1 | [ ] - titolo1 - \ndescrizione\n\nTaskID: 2 | [ ] - titolo2 - \ndescrizione\n\n");
+}
+
+TEST(TestTaskList, TaskListSerialize) {
+    string name = "nome";
+    TaskList taskList(0, name);
+    taskList.setNextId(1);
+    string titolo = "titolo";
+    string descrizione = "descrizione";
+    taskList.addTask(titolo+"1", descrizione, 0);
+    taskList.addTask(titolo+"2", descrizione, 1);
+    taskList.addTask(titolo+"3", descrizione, 2);
+    vector<string> result;
+    taskList.serialize(result);
+    EXPECT_EQ(result[0], "0|nome");
+    EXPECT_EQ(result[1], "1|0|0|titolo1|descrizione|");
+    EXPECT_EQ(result[2], "2|1|0|titolo2|descrizione|");
+    EXPECT_EQ(result[3], "3|2|0|titolo3|descrizione|");
+};
+
+TEST(TestTaskList, TaskListDeserialize) {
+    string name = "sdf";
+    TaskList taskList(0, name);
+    taskList.setNextId(1);
+    vector<string> result = {
+        "0|nome",
+        "1|0|0|titolo1|descrizione|",
+        "2|1|0|titolo2|descrizione|",
+        "3|2|0|titolo3|descrizione|"
+    };
+    taskList.deserialize(result);
+    ASSERT_EQ(taskList.getTaskListID(), 0);
+    EXPECT_EQ(taskList.getName(), "nome");
+
+    Task task = taskList.getTask(0);
+    ASSERT_TRUE(task.getId() == 1);
+    ASSERT_TRUE(task.getUrgencyLevel() == 0);
+    ASSERT_TRUE(task.isCompleted() == 0);
+    ASSERT_TRUE(task.getTitle() == "titolo1");
+    ASSERT_TRUE(task.getDescription() == "descrizione");
+
+    task = taskList.getTask(1);
+    ASSERT_TRUE(task.getId() == 2);
+    ASSERT_TRUE(task.getUrgencyLevel() == 1);
+    ASSERT_TRUE(task.isCompleted() == 0);
+    ASSERT_TRUE(task.getTitle() == "titolo2");
+    ASSERT_TRUE(task.getDescription() == "descrizione");
+
+    task = taskList.getTask(2);
+    ASSERT_TRUE(task.getId() == 3);
+    ASSERT_TRUE(task.getUrgencyLevel() == 2);
+    ASSERT_TRUE(task.isCompleted() == 0);
+    ASSERT_TRUE(task.getTitle() == "titolo3");
+    ASSERT_TRUE(task.getDescription() == "descrizione");
+}
+
+TEST(TestTaskList, TaskListCompleteTask) {
+    string name;
+    TaskList taskList(0, name);
+    taskList.setNextId(1);
+    string titolo = "titolo";
+    string descrizione = "descrizione";
+    taskList.addTask(titolo+"1", descrizione, 0);
+    taskList.addTask(titolo+"2", descrizione, 0);
+    taskList.addTask(titolo+"3", descrizione, 1);
+    taskList.completeTask(1);
+    taskList.completeTask(2);
+    ASSERT_TRUE(taskList.getTask(0).isCompleted());
+    ASSERT_TRUE(taskList.getTask(1).isCompleted());
+    ASSERT_FALSE(taskList.getTask(2).isCompleted());
 }

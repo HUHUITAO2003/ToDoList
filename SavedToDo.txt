@@ -1,2 +1,9 @@
-8|0|0|titolo1|descrizione1
-9|0|0|TITOLO|DESCRIZIONE
+3|11|
+0:3:1|1:5:1|2:7:2|
+0|Locale
+1|0|0|a|a|
+1|A
+3|0|0|a1|a1|
+2|B
+9|1|0|a|a|
+10|2|0|a|a|

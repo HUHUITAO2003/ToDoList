@@ -6,15 +6,17 @@
 #define TASK_H
 
 #include <string>
-#include <iostream>
 #include <vector>
+#include <stdexcept>
+#include <sstream>
 
 using namespace std;
 
-class invalid_id_argument : public std::invalid_argument {public: explicit invalid_id_argument(const std::string& msg) : std::invalid_argument(msg) {}};
-class invalid_urgencyLevel_argument : public std::invalid_argument {public: explicit invalid_urgencyLevel_argument(const std::string& msg) : std::invalid_argument(msg) {}};
-class invalid_title_argument : public std::invalid_argument {public: explicit invalid_title_argument(const std::string& msg) : std::invalid_argument(msg) {}};
-class invalid_description_argument : public std::invalid_argument {public: explicit invalid_description_argument(const std::string& msg) : std::invalid_argument(msg) {}};
+class invalid_id_argument : public invalid_argument {public: explicit invalid_id_argument(const string& msg) : invalid_argument(msg) {}};
+class invalid_urgencyLevel_argument : public invalid_argument {public: explicit invalid_urgencyLevel_argument(const string& msg) : invalid_argument(msg) {}};
+class invalid_title_argument : public invalid_argument {public: explicit invalid_title_argument(const string& msg) : invalid_argument(msg) {}};
+class invalid_description_argument : public invalid_argument {public: explicit invalid_description_argument(const string& msg) : invalid_argument(msg) {}};
+class parse_error : public runtime_error {public: explicit parse_error(const string& msg) : runtime_error(msg) {}};
 
 class Task {
 private:
@@ -25,6 +27,8 @@ private:
     int urgencyLevel;
 
 public:
+    static inline const vector<string> urgencyLevels = {"Basso", "Medio", "Alto", "Critico"};
+
     Task(int id, const string &title, const string &description, int urgencyLevel, bool completed = false)
         : id(id), title(title), description(description), urgencyLevel(urgencyLevel), completed(completed) {
         if( id < 0 ) throw invalid_id_argument("Errore: valore ID non negativo");

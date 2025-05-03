@@ -5,7 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(test)
 
 
-set(SOURCE_FILES TaskList.cpp TaskList.h Task.cpp Task.h)
+set(SOURCE_FILES TaskList.cpp TaskList.h Task.cpp Task.h
+        TaskListManager.cpp
+        TaskListManager.h
+        ToDoListInterface.cpp
+        ToDoListInterface.h)
 add_executable(ToDoList main.cpp)
 add_library(core ${SOURCE_FILES})
 target_link_libraries(ToDoList core)
