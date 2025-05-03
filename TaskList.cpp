@@ -4,6 +4,16 @@
 
 #include "TaskList.h"
 
+int TaskList::getNumberOfNotCompletedTask() const {
+    int count = 0;
+    for(auto const &t : tasks) {
+        if(!t.isCompleted()) {
+            count++;
+        }
+    }
+    return count;
+}
+
 // Aggiunge un task tramite titolo e descrizione
 void TaskList::addTask(const string &title, const string &description, int urgencyLevel) {
     tasks.emplace_back(nextID, title, description, urgencyLevel);

@@ -237,3 +237,25 @@ TEST(TestTaskList, TaskListTaskContains) {
     ASSERT_EQ(taskIDs.size(), 1);
     ASSERT_EQ(taskIDs[0], 4);
 }
+
+TEST(TestTaskList, TaskListGetNumberOfNotCompletedTask) {
+    string name;
+    TaskList taskList(0, name);
+    taskList.setNextId(1);
+    Task task1(1, "Titolo_Task1", "Descrizione_Task1", 2);
+    Task task2(2, "Titolo_Task2", "Descrizione_Task2", 1, true);
+    Task task3(3, "Titolo_Task4", "Descrizione_Task3", 0, true);
+    Task task4(4, "Titolo_Task5", "Descrizione_Task4", 3, true);
+    taskList.addTask(task1);
+    taskList.addTask(task2);
+    taskList.addTask(task3);
+    taskList.addTask(task4);
+    ASSERT_EQ(taskList.getNumberOfNotCompletedTask(), 1);
+    taskList.addTask(task1);
+    ASSERT_EQ(taskList.getNumberOfNotCompletedTask(), 2);
+    taskList.addTask(task1);
+    taskList.addTask(task1);
+    ASSERT_EQ(taskList.getNumberOfNotCompletedTask(), 4);
+    taskList.addTask(task2);
+    ASSERT_EQ(taskList.getNumberOfNotCompletedTask(), 4);
+}

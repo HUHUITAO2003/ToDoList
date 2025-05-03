@@ -31,6 +31,7 @@ public:
     int getTaskListID() const { return taskListID; }
     int getNumberOfTask() const { return tasks.size(); }
     Task getTask(int position) { return tasks.at(position); }
+    int getNumberOfNotCompletedTask() const ;
 
     // Aggiunge un task tramite titolo e descrizione
     void addTask(const string &title, const string &description, int urgencyLevel);
