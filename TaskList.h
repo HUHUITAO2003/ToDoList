@@ -43,17 +43,17 @@ public:
 
     bool deleteTask(int taskListID);
 
-    void taskContains(const string &word, vector<int> &taskIDs) const;
+    vector<int> taskContains(const string &word) const;
 
     bool modifyTask(int taskListID, const string &newTitle, const string &newDesciption, int urgencyLevel, bool completed);
 
-    void getXXXurgencyLevelTaskPosition(int urgencyLevel, vector<int> &positions) const;
+    vector<int> getXXXurgencyLevelTaskPosition(int urgencyLevel) const;
 
     bool completeTask(int ID);
 
-    void toString(string &result) const;
+    string toString() const;
 
-    void serialize(vector<string> &lines) const;
+    vector<string> serialize() const;
 
     void deserialize(const vector<string> &lines);
 };

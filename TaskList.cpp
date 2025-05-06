@@ -43,14 +43,14 @@ void TaskList::addTask(Task &task) {
 }
 
 // Stampa tutti i task a video
-void TaskList::toString(string &result) const {
-    result = "";
+string TaskList::toString() const {
+    string result = "";
     if (tasks.empty()) {
-        return;
+        return result;
     }
     for (int i = Task::urgencyLevels.size() - 1; i >= 0; i--) {
         vector<int> positions;
-        getXXXurgencyLevelTaskPosition(i, positions);
+        positions = getXXXurgencyLevelTaskPosition(i);
         if (!positions.empty()) {
             result += "Task di urgenza " + Task::urgencyLevels[i] + ": \n";
             for (int j = 0; j < positions.size(); j++) {
@@ -58,26 +58,29 @@ void TaskList::toString(string &result) const {
             }
         }
     }
+    return result;
 }
 
 
-void TaskList::getXXXurgencyLevelTaskPosition(int urgencyLevel, vector<int> &positions) const {
-    positions.clear();
+vector<int> TaskList::getXXXurgencyLevelTaskPosition(int urgencyLevel) const {
+    vector<int> positions;
     for (int i = 0; i < tasks.size(); i++) {
         if (tasks[i].getUrgencyLevel() == urgencyLevel) {
             positions.emplace_back(i);
         }
     }
+    return positions;
 }
 
 
 // Salva su disco l'elenco dei task nel file specificato
-void TaskList::serialize(vector<string> &lines) const {
-    lines.clear();
+vector<string> TaskList::serialize() const {
+    vector<string> lines;
     lines.emplace_back(to_string(taskListID) + "|" + name);
     for(int i = 0 ; i < tasks.size() ; i++) {
         lines.push_back(tasks[i].serialize());
     }
+    return lines;
 }
 
 
@@ -113,13 +116,14 @@ bool TaskList::deleteTask(int taskListID) {
     return false;
 }
 
-void TaskList::taskContains(const string &word, vector<int> &taskIDs) const {
-    taskIDs.clear();
+vector<int> TaskList::taskContains(const string &word) const {
+    vector<int> taskIDs;
     for(int i = 0 ;  i < tasks.size() ; i++) {
         if(tasks[i].contains(word)) {
             taskIDs.emplace_back(tasks[i].getId());
         }
     }
+    return taskIDs;
 }
 
 bool TaskList::modifyTask(int taskID, const string &newTitle, const string &newDesciption, int urgencyLevel,

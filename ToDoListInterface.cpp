@@ -27,8 +27,7 @@ void ToDoListInterface::start() {
                 }
 
                 cout << "Inserisci il ToDoListID in cui vuoi aggiungere la Task: " << endl;
-                string result;
-                taskListManager.toString(result);
+                string result = taskListManager.toString();
                 cout << result << endl;
                 int taskListPosition = taskListManager.getTaskListPosition(getInt());
                 while(taskListPosition == -1) {
@@ -56,8 +55,7 @@ void ToDoListInterface::start() {
                 }
 
                 cout << "Elenco dei To Do List in locale:" << endl;
-                string taskLists;
-                taskListManager.toString(taskLists); //evitare di passare per valore il risultato, essendo se creo stringa dentro toStrng viene poi cancellata.
+                string taskLists = taskListManager.toString(); //evitare di passare per valore il risultato, essendo se creo stringa dentro toStrng viene poi cancellata.
                 cout << taskLists << endl << endl;
 
                 cout << "Inserisci il ToDoListID della To Do List che vuoi visualizzare: " << endl;
@@ -75,7 +73,7 @@ void ToDoListInterface::start() {
             case 4: {
                 string result;
                 try {
-                    taskListManager.savedTaskListToString(result);
+                    result = taskListManager.savedTaskListToString();
                 } catch (const exception &e) {
                     printError(e.what());
                 }
@@ -91,7 +89,7 @@ void ToDoListInterface::start() {
             case 5: {
                 string result;
                 try {
-                    taskListManager.savedTaskListToString(result);
+                    result = taskListManager.savedTaskListToString();
                 } catch (const exception &e) {
                     printError(e.what());
                 }
@@ -227,8 +225,7 @@ void ToDoListInterface::taskListInterface(int taskListPosition) {
             //Visualizza
             case 2: {
                 cout << "Elenco dei task:" << endl;
-                string result;
-                taskListManager.taskListToString(taskListPosition, result);
+                string result = taskListManager.taskListToString(taskListPosition);
                 cout << result << endl;
                 break;
             }
@@ -236,8 +233,7 @@ void ToDoListInterface::taskListInterface(int taskListPosition) {
             //Completa
             case 3: {
                 cout << "Elenco dei task:" << endl;
-                string result;
-                taskListManager.taskListToString(taskListPosition, result);
+                string result = taskListManager.taskListToString(taskListPosition);
                 cout << result << endl;
 
                 cout << "Inserisci il TaskID che hai completato." << endl;

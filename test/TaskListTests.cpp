@@ -52,19 +52,18 @@ TEST(TestTaskList, TaskListGetXXXurgencyLevelTaskPosition) {
     taskList.addTask(titolo, descrizione, 1);
     taskList.addTask(titolo, descrizione, 0);
 
-    vector<int> positions;
-    taskList.getXXXurgencyLevelTaskPosition(0, positions);
+    vector<int> positions = taskList.getXXXurgencyLevelTaskPosition(0);
     ASSERT_EQ(positions[0], 0);
     ASSERT_EQ(positions[1], 1);
     ASSERT_EQ(positions[2], 5);
 
-    taskList.getXXXurgencyLevelTaskPosition(1, positions);
+    positions = taskList.getXXXurgencyLevelTaskPosition(1);
     ASSERT_EQ(positions[0], 4);
 
-    taskList.getXXXurgencyLevelTaskPosition(2, positions);
+    positions = taskList.getXXXurgencyLevelTaskPosition(2);
     ASSERT_EQ(positions[0], 2);
 
-    taskList.getXXXurgencyLevelTaskPosition(3, positions);
+    positions = taskList.getXXXurgencyLevelTaskPosition(3);
     ASSERT_EQ(positions[0], 3);
 }
 
@@ -72,16 +71,14 @@ TEST(TestTaskList, TaskListToString) {
     string name;
     TaskList taskList(0, name);
     taskList.setNextId(1);
-    string result;
-    taskList.toString(result);
+    string result = taskList.toString();
     EXPECT_EQ(result, "");
     string titolo = "titolo";
     string descrizione = "descrizione";
     taskList.addTask(titolo+"1", descrizione, 0);
     taskList.addTask(titolo+"2", descrizione, 0);
     taskList.addTask(titolo+"3", descrizione, 1);
-    result = "";
-    taskList.toString(result);
+    result = taskList.toString();
     EXPECT_EQ(result, "Task di urgenza Medio: \nTaskID: 3 | [ ] - titolo3 - \ndescrizione\n\nTask di urgenza Basso: \nTaskID: 1 | [ ] - titolo1 - \ndescrizione\n\nTaskID: 2 | [ ] - titolo2 - \ndescrizione\n\n");
 }
 
@@ -94,8 +91,7 @@ TEST(TestTaskList, TaskListSerialize) {
     taskList.addTask(titolo+"1", descrizione, 0);
     taskList.addTask(titolo+"2", descrizione, 1);
     taskList.addTask(titolo+"3", descrizione, 2);
-    vector<string> result;
-    taskList.serialize(result);
+    vector<string> result = taskList.serialize();
     EXPECT_EQ(result[0], "0|nome");
     EXPECT_EQ(result[1], "1|0|0|titolo1|descrizione|");
     EXPECT_EQ(result[2], "2|1|0|titolo2|descrizione|");
@@ -212,28 +208,28 @@ TEST(TestTaskList, TaskListTaskContains) {
 
     vector<int> taskIDs;
     string word = "Task";
-    taskList.taskContains(word, taskIDs);
+    taskIDs = taskList.taskContains(word);
     ASSERT_EQ(taskIDs.size(), 4);
     word = "1";
-    taskList.taskContains(word, taskIDs);
+    taskIDs = taskList.taskContains(word);
     ASSERT_EQ(taskIDs.size(), 1);
     word = "Descrizione";
-    taskList.taskContains(word, taskIDs);
+    taskIDs = taskList.taskContains(word);
     ASSERT_EQ(taskIDs.size(), 4);
     word = "Basso";
-    taskList.taskContains(word, taskIDs);
+    taskIDs = taskList.taskContains(word);
     ASSERT_EQ(taskIDs.size(), 1);
     ASSERT_EQ(taskIDs[0], 3);
     word = "Medio";
-    taskList.taskContains(word, taskIDs);
+    taskIDs = taskList.taskContains(word);
     ASSERT_EQ(taskIDs.size(), 1);
     ASSERT_EQ(taskIDs[0], 2);
     word = "Alto";
-    taskList.taskContains(word, taskIDs);
+    taskIDs = taskList.taskContains(word);
     ASSERT_EQ(taskIDs.size(), 1);
     ASSERT_EQ(taskIDs[0], 1);
     word = "Critico";
-    taskList.taskContains(word, taskIDs);
+    taskIDs = taskList.taskContains(word);
     ASSERT_EQ(taskIDs.size(), 1);
     ASSERT_EQ(taskIDs[0], 4);
 }

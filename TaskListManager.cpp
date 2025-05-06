@@ -21,11 +21,12 @@ void TaskListManager::addTaskList(TaskList &taskList) {
     if( taskList.getTaskListID() <= nextTaskListID) nextTaskListID = taskList.getTaskListID() + 1;
 }
 
-void TaskListManager::toString(string &result) const {
-    result = "";
+string TaskListManager::toString() const {
+    string result = "";
     for(auto const &list : taskLists) {
         result += "ToDoListID:" + to_string(list.getTaskListID()) + " - " + list.getName() + "\n";
     }
+    return result;
 }
 
 int TaskListManager::getTaskListPosition(int taskListID) const {
@@ -45,13 +46,14 @@ bool TaskListManager::modifyTask(int taskID, int taskListPosition, const string 
     return taskLists.at(taskListPosition).modifyTask(taskID, newTitle, newDescription, urgencyLevel, completed);
 }
 
-void TaskListManager::findWord(const string &word, vector<int> &taskIDs) const {
-    taskIDs.clear();
+vector<int> TaskListManager::findWord(const string &word) const {
+    vector<int> taskIDs;
     for(auto const &t:taskLists) {
         vector<int> ids;
-        t.taskContains(word, ids);
+        ids = t.taskContains(word);
         taskIDs.insert(taskIDs.end(), ids.begin(), ids.end());
     }
+    return taskIDs;
 }
 
 int TaskListManager::getNumberOfNotCompletedTask() const {
@@ -63,8 +65,8 @@ int TaskListManager::getNumberOfNotCompletedTask() const {
 }
 
 
-void TaskListManager::taskListToString(int taskListPosition, string &result) {
-    taskLists.at(taskListPosition).toString(result);
+string TaskListManager::taskListToString(int taskListPosition) {
+    return taskLists.at(taskListPosition).toString();
 }
 
 bool TaskListManager::completeTask(int taskListPosition, int taskId) {
@@ -146,7 +148,7 @@ void TaskListManager::saveTaskList(int taskListPosition) const {
     string tempFilePath = "./temp.txt";
     ofstream tempFile(tempFilePath);
     vector<string> lines;
-    taskList.serialize(lines);
+    lines = taskList.serialize();
     //prima volta che viene salvato
     if(index == -1) {
         int startPosition = 0;
@@ -203,11 +205,12 @@ void TaskListManager::saveTaskList(int taskListPosition) const {
     std::rename(tempFilePath.c_str(), path.c_str());
 }
 
-void TaskListManager::savedTaskListToString(string &result) const {
+string TaskListManager::savedTaskListToString() const {
     ifstream file(path);
     if (!file) {
         throw cannot_open_file("Errore: apertura file fallita.");
     }
+    string result ="";
 
     string nextIDsStr, header;
     getline(file, nextIDsStr);
@@ -234,6 +237,7 @@ void TaskListManager::savedTaskListToString(string &result) const {
         contatore++;
     }
     file.close();
+    return result;
 }
 
 void TaskListManager::readFileHeader(const string &header, vector<int> &taskListsIDs, vector<int> &startPositions, vector<int> &sizes) const {

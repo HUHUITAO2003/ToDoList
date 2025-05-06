@@ -78,8 +78,7 @@ TEST(TestTaskListManager, TaskListManagerSavedTaskListToString) {
 
     TaskListManager::setPath(tempFilePath);
     TaskListManager taskListManager;
-    string result;
-    taskListManager.savedTaskListToString(result);
+    string result = taskListManager.savedTaskListToString();
     EXPECT_EQ(result, "ToDoListID:1 - ToDoList1\nToDoListID:2 - ToDoList2\n");
     std::filesystem::path fullPath = std::filesystem::absolute(tempFilePath);
     cout<<fullPath;
@@ -154,11 +153,10 @@ TEST(TestTaskListManager, TaskListManagerTaskListToString) {
     taskListManager.addTaskList(name);
     taskListManager.addTask(title, description,  0, 1);
     taskListManager.addTask(title+"2", description+"2", 0, 1);
-    string result;
-    taskListManager.taskListToString(1, result);
+    string result = taskListManager.taskListToString(1);
     EXPECT_EQ(result, "Task di urgenza Basso: \nTaskID: 1 | [ ] - title - \ndescription\n\nTaskID: 2 | [ ] - title2 - \ndescription2\n\n");
     taskListManager.addTask(title+"3", description+"3", 1, 1);
-    taskListManager.taskListToString(1, result);
+    result = taskListManager.taskListToString(1);
     EXPECT_EQ(result, "Task di urgenza Medio: \nTaskID: 3 | [ ] - title3 - \ndescription3\n\nTask di urgenza Basso: \nTaskID: 1 | [ ] - title - \ndescription\n\nTaskID: 2 | [ ] - title2 - \ndescription2\n\n");
 }
 
@@ -328,30 +326,35 @@ TEST(TestTaskListManager, TaskListManagerFindWord) {
 
     vector<int> taskIDs;
     string word = "Task";
-    taskListManager.findWord(word, taskIDs);
+    taskIDs = taskListManager.findWord(word);
     ASSERT_EQ(taskIDs.size(), 4);
     word = "1";
-    taskListManager.findWord(word, taskIDs);
+    taskIDs = taskListManager.findWord(word);
     ASSERT_EQ(taskIDs.size(), 1);
     word = "Descrizione";
-    taskListManager.findWord(word, taskIDs);
+    taskIDs = taskListManager.findWord(word);
     ASSERT_EQ(taskIDs.size(), 4);
     word = "Basso";
-    taskListManager.findWord(word, taskIDs);
+    taskIDs = taskListManager.findWord(word);
     ASSERT_EQ(taskIDs.size(), 1);
     ASSERT_EQ(taskIDs[0], 3);
     word = "Medio";
-    taskListManager.findWord(word, taskIDs);
+    taskIDs = taskListManager.findWord(word);
     ASSERT_EQ(taskIDs.size(), 1);
     ASSERT_EQ(taskIDs[0], 2);
     word = "Alto";
-    taskListManager.findWord(word, taskIDs);
+    taskIDs = taskListManager.findWord(word);
     ASSERT_EQ(taskIDs.size(), 1);
     ASSERT_EQ(taskIDs[0], 1);
     word = "Critico";
-    taskListManager.findWord(word, taskIDs);
+    taskIDs = taskListManager.findWord(word);
     ASSERT_EQ(taskIDs.size(), 1);
     ASSERT_EQ(taskIDs[0], 4);
+
+    //ricerca parola inesistente
+    word = "parola inesistente";
+    taskIDs = taskListManager.findWord(word);
+    ASSERT_TRUE(taskIDs.empty());
 }
 
 TEST(TestTaskListManager, TaskListManagerGetNumberOfNotCompletedTask) {

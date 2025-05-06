@@ -37,17 +37,17 @@ public:
         taskLists[taskListPosition].addTask(task);
     }
     TaskList getTaskList(int taskListID) const;
-    void toString(string &result) const;
-    void savedTaskListToString(string &result) const;
+    string toString() const;
+    string savedTaskListToString() const;
     int getTaskListPosition(int taskListID) const;
     int getNumberOfTaskList() const { return taskLists.size(); }
     int getNextTaskListID() const { return nextTaskListID; }
     bool deleteTask(int taskID, int taskListPosition);
     bool modifyTask(int taskID, int taskListPosition, const string &newTitle, const string &newDesciption, int urgencyLevel, bool completed);
-    void findWord(const string &word, vector<int> &taskIDs) const;
+    vector<int> findWord(const string &word) const;
     int getNumberOfNotCompletedTask() const;
 
-    void taskListToString(int taskListPosition, string &result);
+    string taskListToString(int taskListPosition);
     bool completeTask(int taskListPosition, int taskId);
 
     void loadTaskList(int taskListID);
